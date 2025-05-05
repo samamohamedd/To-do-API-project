@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 
-// ✅ اتصال بقاعدة البيانات
+// database connection
 mongoose.connect('mongodb://localhost:27017/todo-app', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -36,9 +36,9 @@ app.post('/todos', async (req, res) => {
       await newTodo.save();
   
       res.status(201).json(newTodo);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Something went wrong' });
     }
   });
 
@@ -49,9 +49,9 @@ app.get('/todos', async (req, res) => {
     try {
       const todos = await Todo.find();
       res.status(200).json(todos);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Failed to fetch todos' });
     }
   });
   
@@ -73,13 +73,10 @@ app.get('/todos', async (req, res) => {
 
   // delete a task endpoint 
   app.delete('/todos/:id', async (req, res) => {
-    try {
-      await Todo.findByIdAndDelete(req.params.id);
-      res.status(204).json({ message: 'task deleted successfully' });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'failed to delete the task' });
-    }
+
+    await Todo.findByIdAndDelete(req.params.id);
+    res.status(204).json({ message: 'task deleted successfully' });
+
   });
   
   
